@@ -1,0 +1,20 @@
+# AI-Toolkit
+
+Consignes, skills et outils pour travailler avec des agents IA.
+
+## Sommaire
+
+- [AGENTS.md](AGENTS.md) : consignes principales, communes à tous les projets.
+- `Agents/` : consignes complémentaires pour la [programmation](Agents/Programming.md) et la [bibliographie](Agents/Bibliography.md).
+- `Skills/` : skills réutilisables et leurs ressources.
+- `Templates/` : modèles de documents et de rapports.
+- `Workflows/` : méthodes de travail.
+- `Config/` : exemples de configuration.
+- `Scripts/` : outils d’installation, de synchronisation et de validation.
+- `Examples/` : exemples d’utilisation.
+
+Les dossiers sont ajoutés au fur et à mesure des besoins.
+
+## Licence
+
+[MIT](LICENSE). Les ressources tierces conservent leurs licences et attributions.

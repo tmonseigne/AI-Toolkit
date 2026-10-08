@@ -1,5 +1,7 @@
 # AI-Toolkit
 
+![GitHub License](https://img.shields.io/github/license/tmonseigne/AI-Toolkit)
+
 Consignes, skills et outils pour travailler avec des agents IA.
 
 ## Sommaire

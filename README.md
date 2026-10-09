@@ -8,10 +8,10 @@ Consignes, skills et outils pour travailler avec des agents IA.
 
 - [AGENTS.md](AGENTS.md) : consignes principales, communes à tous les projets.
 - `Agents/` : consignes complémentaires pour la [programmation](Agents/Programming.md) et la [bibliographie](Agents/Bibliography.md).
-- `Skills/` : skills réutilisables et leurs ressources.
+- [Skills/](Skills/README.md) : skills réutilisables et opérations en préparation.
 - `Templates/` : modèles de documents et de rapports.
 - `Workflows/` : méthodes de travail.
-- `Config/` : exemples de configuration.
+- `Config/` : [règles ReSharper](Config/CodingRules.DotSettings) et [règles Python](Config/PythonCodingRules.md).
 - `Scripts/` : outils d’installation, de synchronisation et de validation.
 - `Examples/` : exemples d’utilisation.
 

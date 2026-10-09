@@ -1,0 +1,4 @@
+interface:
+  display_name: "Correction des règles de code"
+  short_description: "Corriger le style et l’organisation du code existant"
+  default_prompt: "Utilise $code-style-fix pour corriger les conventions et l’organisation des fichiers concernés par la branche courante."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Inspection et correction du code"
+  short_description: "Corriger les diagnostics et examiner les faux positifs"
+  default_prompt: "Utilise $code-inspection-fix pour analyser et corriger les diagnostics des fichiers concernés par la branche courante, puis poursuivre la revue des cas incertains."

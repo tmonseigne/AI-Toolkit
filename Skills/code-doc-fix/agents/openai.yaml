@@ -1,0 +1,7 @@
+interface:
+  display_name: "Correction de la documentation du code"
+  short_description: "Corrige la documentation Python et les traductions"
+  default_prompt: "Utilise $code-doc-fix pour corriger la documentation de la branche courante, ou de tout le projet si elle est la branche principale."
+
+policy:
+  allow_implicit_invocation: false

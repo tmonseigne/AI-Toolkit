@@ -69,6 +69,8 @@
 
 ## Vérification et compte rendu
 
+- Pour une correction ou une optimisation algorithmique, appliquer l’exception permanente de validation avant/après décrite dans [la variante programmation](Agents/Programming.md#exécution-des-vérifications) : tests, rapport limité aux différences et monitoring affiché uniquement en cas d’écart significatif.
+
 - Respecter les restrictions de vérification de la variante et du projet ; ne pas supposer qu’une autorisation de modification autorise tous les outils de validation.
 - Distinguer les vérifications sans écriture des outils qui créent des caches, des rapports ou réécrivent des fichiers.
 - Ne lancer un outil de réécriture que si les fichiers concernés et cette modification sont couverts par l’autorisation donnée ; sinon demander un accord.

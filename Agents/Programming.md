@@ -62,9 +62,17 @@ Complète les [consignes générales](../AGENTS.md) pour les projets Python et C
 
 ## Exécution des vérifications
 
-- Ne jamais exécuter les tests : leur lancement reste à la charge de l’utilisateur, même après une modification autorisée, sauf nouvelle instruction explicite de sa part.
-- Ne jamais déclarer que les tests réussissent tant que leur résultat n’a pas été communiqué ou observé dans le cadre d’une autorisation explicite d’exécution.
-- Exécuter uniquement les contrôles pertinents de formatage ou de lint qui ne modifient pas de fichiers hors du périmètre autorisé.
-- Demander un accord séparé avant un outil susceptible de réécrire automatiquement des fichiers lorsque cette réécriture n’est pas déjà explicitement autorisée.
-- Respecter les configurations de compilation, de tests et d’analyse statique existantes, notamment celles de GitHub Actions.
-- Signaler les vérifications qui n’ont pas été effectuées et leur raison.
+- Par défaut, ne pas exécuter les tests sans demande ; exception permanente : toute modification d'algorithme (correction de bug, optimisation ou changement numérique) autorise et impose la compilation, les tests pertinents et une comparaison avant/après sans nouvelle confirmation.
+- Figer l'état avant modification et les entrées, puis exécuter les mêmes scénarios sur deux copies isolées avec les mêmes options, dépendances et budgets de threads ; préserver les changements locaux et les références existantes.
+- Si le correctif est déjà appliqué, reconstruire l'état précédent exact dans une copie isolée et documenter sa provenance ; ne pas comparer silencieusement une ancienne DLL comportant d'autres changements.
+- Ajouter les régressions nécessaires et les exécuter après correction ; les exécuter aussi avant lorsqu'elles sont sûres, sans lancer un cas pouvant provoquer un accès mémoire invalide ou un autre effet dangereux dans l'ancienne version. Documenter toute exclusion.
+- Produire un rapport de test fondé sur les résultats réellement observés. En cas de différences avant/après, ne détailler que les points différents, avec des tolérances numériques et des critères physiques adaptés au contexte ; conserver les résultats complets bruts pour la traçabilité.
+- Adapter les comparaisons visuelles au phénomène : en SMLM, montrer des zooms sur les mêmes ROI et les mêmes pixels, avec les localisations et les formes ajustées avant/après ; comparer la covariance lorsque l'angle n'est pas identifiable.
+- Mesurer aussi les ressources avant/après sur une charge représentative suffisamment longue, avec répétitions et ordre alterné. Définir avant l'analyse un seuil de pertinence pratique et tenir compte de la dispersion des mesures ; ne pas conclure sur un passage isolé.
+- Afficher systématiquement les quantités mémoire avant/après (RSS et mémoire privée), même sans différence significative. Afficher les courbes comparatives détaillées uniquement si une différence dépasse les critères déclarés ; sinon conserver les mesures brutes accessibles et donner une brève conclusion. Signaler les résultats non concluants.
+- Réserver les tests de performances et de charge aux données réelles fournies par l’utilisateur ; les données synthétiques servent aux régressions fonctionnelles, pas aux conclusions de performances. Conserver les programmes de charge séparés et locaux, notamment un C++ autonome pour la DLL, sans intégration aux tests courants. Pour le test massif sur cette machine, utiliser la pile entière en un seul appel et les processeurs disponibles, sans découpage en blocs ; vérifier explicitement les capacités mémoire et l’absence de troncature.
+- Conserver les benchmarks et diagnostics personnels hors Git avec un suffixe `_local` et des exclusions ciblées ; ne pas les ajouter aux cibles partagées. Aucun ajout de dépendance ni changement automatique de référence n'est autorisé par cette exception.
+- Ne jamais annoncer une réussite sans résultat effectivement observé ; signaler les échecs préexistants, les régressions, les exclusions et les vérifications impossibles.
+
+- Respecter les configurations de compilation, de tests et d’analyse statique du projet et de GitHub Actions.
+- Demander un accord avant une réécriture automatique qui dépasse les fichiers déjà autorisés.

@@ -1,0 +1,35 @@
+<!doctype html><html lang="fr"><meta charset="utf-8"><title>Audit Zotero</title>
+<style>body{font:16px system-ui;margin:32px;color:#172536}h1{font-size:28px}table{border-collapse:collapse;width:100%;font-size:13px}td,th{border:1px solid #d5dce5;padding:8px;vertical-align:top;overflow-wrap:anywhere}th{background:#eaf0f7;position:sticky;top:0}th button{font:inherit;font-weight:600;color:inherit;background:transparent;border:0;padding:0;cursor:pointer;text-align:left;width:100%}th button:focus-visible{outline:2px solid #0759a2;outline-offset:4px}.sort-indicator{margin-left:6px}input,select{padding:9px;margin:12px 8px 20px 0}td:nth-child(4),td:nth-child(5){max-width:300px}a{color:#0759a2}</style>
+<h1>Audit des métadonnées Zotero</h1><p>{{article_count}} articles · {{other_count}} autres références · {{application_summary}}</p>
+<p>L'inventaire contient toutes les notices actives, hors corbeille, notes et pièces jointes. L'analyse des champs porte sur les articles ; les autres types sont inclus pour le contrôle des doublons.</p>
+<p><b>Vérifié</b> : valeur contrôlée sur une source primaire et consignée dans le suivi. Les rapprochements automatiques restent des propositions. <b>Proposition</b> : changement à relire, notamment noms complets, identités candidates et titre officiel des revues. <b>À vérifier</b> : identité ou information non résolue. <b>Manquant</b> : champ vide, parfois légitimement absent. Les rapprochements avec d'autres notices locales sont explicitement des propositions à confirmer. Un prénom complet suivi d'une ou plusieurs initiales intermédiaires est accepté (par exemple « Paul A. »), ainsi qu'un prénom complet seul. Les initiales en tête du prénom, les prénoms absents et les problèmes d'encodage restent signalés. Les formes d’usage officiel avec une initiale suivie d’un prénom sont également acceptées lorsque la source les confirme. Les auteurs collectifs sont conservés.</p>
+<p>Les dates brutes de Zotero combinent une composante de tri et le texte saisi : les jours/mois 00 et les répétitions ne sont pas, à eux seuls, des erreurs de saisie. Un numéro ou une pagination peut être absent pour une revue à publication continue ; un numéro d'article peut occuper le champ pages. Les noms historiques des revues doivent être conservés.</p>
+<p>Les fichiers JSON conservent l'avant/après et les sources. Ils constituent un plan de correction, sans import automatique ni fichier BibTeX risquant de créer des doublons.</p>
+<h2>Champs absents parmi les {{article_count}} articles</h2><p>{{missing}}</p>
+<p>Les pistes de prénoms figurent dans le motif, avec leur niveau et une source. Elles servent à la relecture et ne sont pas des corrections approuvées ; une correspondance de domaine reste un indice.</p>
+<p>Les noms et variantes sont regroupés dans <a href="auteurs-reference.json">le référentiel auteurs</a>. Les preuves particulières sont dans <a href="sources-complementaires.json">les sources complémentaires</a>. Les anciens lots sont archivés dans le dossier historique.</p>
+<h2>Plan détaillé</h2><input id="search" placeholder="Titre, clé, auteur, champ…" size="45"><select id="status"><option value="">Tous les statuts</option><option>vérifié</option><option>proposition</option><option>à vérifier</option><option>manquant</option><option>information</option></select><span id="count"></span>
+<table><thead><tr><th>Clé Zotero</th><th>Titre</th><th>Champ</th><th>Avant</th><th>Après proposé</th><th>Statut</th><th>Motif</th><th>Preuve</th></tr></thead><tbody>{{rows}}</tbody></table>
+<script>
+const search=document.querySelector('#search'),status=document.querySelector('#status');
+function filter(){let n=0;for(const r of document.querySelectorAll('tbody tr')){const ok=r.textContent.toLocaleLowerCase().includes(search.value.toLocaleLowerCase())&&(!status.value||r.children[5].textContent===status.value);r.hidden=!ok;if(ok)n++;}document.querySelector('#count').textContent=n+' lignes';}
+search.oninput=filter;status.onchange=filter;filter();
+// Tri naturel français, stable pour les égalités ; les filtres sont conservés.
+const body=document.querySelector('tbody'),headers=[...document.querySelectorAll('thead th')];
+const collator=new Intl.Collator('fr',{numeric:true,sensitivity:'base'});
+let sortedColumn=-1,direction=1;
+[...body.rows].forEach((row,index)=>{row.dataset.originalOrder=String(index);});
+function sortColumn(column){
+  direction=sortedColumn===column?-direction:1;sortedColumn=column;
+  const rows=[...body.rows].map(row=>({row,value:column===7?(row.cells[column].querySelector('a')?.getAttribute('href')||''):row.cells[column].textContent.trim()}));
+  rows.sort((a,b)=>direction*collator.compare(a.value,b.value)||Number(a.row.dataset.originalOrder)-Number(b.row.dataset.originalOrder));
+  const fragment=document.createDocumentFragment();rows.forEach(({row})=>fragment.append(row));body.append(fragment);
+  headers.forEach((header,index)=>{header.setAttribute('aria-sort',index===column?(direction===1?'ascending':'descending'):'none');header.querySelector('.sort-indicator').textContent=index===column?(direction===1?'▲':'▼'):'↕';});
+}
+headers.forEach((header,column)=>{
+  const label=header.textContent,button=document.createElement('button'),indicator=document.createElement('span');
+  button.type='button';button.textContent=label;button.title='Trier par '+label+' ; cliquer à nouveau pour inverser le tri';
+  indicator.className='sort-indicator';indicator.setAttribute('aria-hidden','true');indicator.textContent='↕';
+  button.append(indicator);button.addEventListener('click',()=>sortColumn(column));header.textContent='';header.append(button);header.setAttribute('aria-sort','none');
+});
+</script></html>

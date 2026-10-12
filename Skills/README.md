@@ -10,9 +10,13 @@ Le skill installé et sa source doivent ainsi utiliser les mêmes fichiers, pour
 
 | Skill | Usage |
 |---|---|
+| [biblio-article-review](biblio-article-review/SKILL.md) | Veille, fiches, registre et extraction des textes. |
+| [biblio-metadata-audit](biblio-metadata-audit/SKILL.md) | Métadonnées, synthèses et tableau HTML d’audit. |
 | [code-doc-fix](code-doc-fix/SKILL.md) | Corrections de documentation Python et traductions ; branche ou projet complet. |
 | [code-style-fix](code-style-fix/SKILL.md) | Corrections de style et d’organisation ; branche ou projet complet. |
 | [code-inspection-fix](code-inspection-fix/SKILL.md) | Analyse statique, corrections et revue des faux positifs Python et C++ ; branche ou projet complet. |
+| [pdf-scan-restore](pdf-scan-restore/SKILL.md) | OCR, recomposition et comparaison avant/après. |
+| [pdf-size-optimize](pdf-size-optimize/SKILL.md) | Poids des PDF et contrôle visuel. |
 
 Les rapports HTML font partie des livrables des opérations concernées, sans skill séparé.
 Les deux skills PDF utilisent le générateur de comparaison et le template HTML de `pdf-size-optimize` comme source unique ; conserver leurs dossiers voisins dans le dépôt, y compris lorsque leur installation utilise des jonctions.

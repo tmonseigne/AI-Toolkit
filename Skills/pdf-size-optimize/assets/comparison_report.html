@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>@@TITLE@@</title>
+<style>
+body{font:16px Arial;margin:0;background:#f3f5f7;color:#17212c}main{max-width:1700px;margin:auto;padding:20px}header,article{background:#fff;padding:20px;border-radius:10px}article{margin:24px 0}h1{margin:0 0 12px}nav{position:sticky;top:0;z-index:3;background:#e6edf3;padding:10px;display:flex;gap:12px;flex-wrap:wrap}input,select,button{font:inherit;padding:6px}section{border-top:1px solid #ccd5dd;margin:18px 0;padding-top:12px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.pair>div{min-width:0}.viewport{height:560px;overflow:auto;background:#e7e7e7;padding:5px}.viewport img{display:block;max-width:100%;height:auto;margin:auto}.tools{padding:8px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}table{border-collapse:collapse;width:100%}th,td{padding:9px;text-align:left;border-bottom:1px solid #ddd}tr:nth-child(even){background:#f7f9fa}th{background:#e7edf2}a{color:#16588b}.checked{border-left:5px solid #43865a}.hidden{display:none}.small{color:#526371;font-size:14px}.warn{background:#fff0d0;padding:10px}summary{cursor:pointer;padding:9px;background:#edf2f6}@media(max-width:800px){.pair{grid-template-columns:1fr}.viewport{height:400px}}
+</style>
+</head>
+<body><main data-report-id="@@REPORT_ID@@">
+<header><h1>@@TITLE@@</h1><p>@@SUMMARY@@</p>
+<p class="warn">Les mesures de pixels servent au contrôle technique. La lecture des figures, des couleurs et des valeurs reste nécessaire. Les cases cochées consignent une relecture humaine et n'autorisent aucun remplacement de fichier.</p>
+<p>La sélection est conservée dans ce navigateur lorsque le stockage local est disponible ; exportez-la pour la conserver.</p></header>
+<nav><input id="filter" type="search" placeholder="Filter by title" aria-label="Filter by title">
+<select id="kind" aria-label="Comparison type"><option value="all">All comparisons</option><option value="page">Pages</option><option value="figure">Figures</option><option value="table">Tables</option><option value="image">Images</option></select>
+<label><input type="checkbox" id="unread"> Unreviewed only</label><button id="export">Export reviews</button><span id="count" aria-live="polite"></span></nav>
+<details><summary>Inventaire des comparaisons</summary><table id="inventory"><thead><tr><th><button data-column="0">Document</button></th><th><button data-column="1" data-numeric="true">Before (MB)</button></th><th><button data-column="2" data-numeric="true">After (MB)</button></th><th><button data-column="3" data-numeric="true">Gain (MB)</button></th></tr></thead><tbody>@@ROWS@@</tbody></table></details>
+@@CONTENT@@
+</main>
+<script>
+const reportId = document.querySelector('main').dataset.reportId;
+const storageKey = 'pdf-review-' + reportId;
+let state = {};
+try { const saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); if (saved && typeof saved === 'object' && !Array.isArray(saved)) state = saved; } catch (error) {}
+function filterAll() {
+  const query = document.getElementById('filter').value.toLowerCase();
+  const kind = document.getElementById('kind').value;
+  const unread = document.getElementById('unread').checked;
+  let shown = 0, reviewed = 0;
+  document.querySelectorAll('article').forEach(article => {
+    const matches = article.dataset.search.toLowerCase().includes(query);
+    let count = 0;
+    article.querySelectorAll('.change').forEach(section => {
+      if (state[section.dataset.id] === true) reviewed++;
+      const visible = matches && (kind === 'all' || section.dataset.kind === kind) && (!unread || state[section.dataset.id] !== true);
+      section.classList.toggle('hidden', !visible);
+      if (visible) count++;
+    });
+    article.classList.toggle('hidden', count === 0);
+    shown += count;
+  });
+  document.getElementById('count').textContent = reviewed + ' reviewed · ' + shown + ' displayed';
+}
+document.querySelectorAll('.review').forEach(input => {
+  input.checked = state[input.dataset.id] === true;
+  input.closest('section').classList.toggle('checked', input.checked);
+  input.addEventListener('change', () => {
+    state[input.dataset.id] = input.checked;
+    try { localStorage.setItem(storageKey, JSON.stringify(state)); } catch (error) {}
+    input.closest('section').classList.toggle('checked', input.checked);
+    filterAll();
+  });
+});
+document.querySelectorAll('.pair').forEach(pair => {
+  const views = pair.querySelectorAll('.viewport');
+  let syncing = false;
+  views.forEach((view, index) => view.addEventListener('scroll', () => {
+    if (syncing) return;
+    syncing = true;
+    const other = views[1 - index];
+    const x = view.scrollWidth - view.clientWidth, y = view.scrollHeight - view.clientHeight;
+    other.scrollLeft = x > 0 ? view.scrollLeft / x * (other.scrollWidth - other.clientWidth) : 0;
+    other.scrollTop = y > 0 ? view.scrollTop / y * (other.scrollHeight - other.clientHeight) : 0;
+    requestAnimationFrame(() => { syncing = false; });
+  }));
+});
+document.querySelectorAll('.zoom').forEach(select => {
+  function applyZoom() {
+    document.getElementById(select.dataset.pair).querySelectorAll('img').forEach(image => {
+      const fit = select.value === 'fit';
+      image.style.maxWidth = fit ? '100%' : 'none';
+      image.style.width = fit ? 'auto' : image.naturalWidth * Number(select.value) + 'px';
+      image.style.margin = fit ? 'auto' : '0';
+    });
+  }
+  select.addEventListener('change', applyZoom);
+  document.getElementById(select.dataset.pair).querySelectorAll('img').forEach(image => image.addEventListener('load', applyZoom));
+});
+document.getElementById('export').addEventListener('click', () => {
+  const reviewed = Object.fromEntries([...document.querySelectorAll('.review')].map(input => [input.dataset.id, input.checked]));
+  const data = {report_id: reportId, exported_at: new Date().toISOString(), reviewed};
+  const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'}));
+  const link = document.createElement('a'); link.href = url; link.download = 'pdf-reviews.json'; link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+document.querySelectorAll('[data-column]').forEach(button => button.addEventListener('click', () => {
+  const column = Number(button.dataset.column), numeric = button.dataset.numeric === 'true';
+  const body = document.querySelector('#inventory tbody'), rows = [...body.rows];
+  const ascending = body.dataset.sort !== column + '-asc';
+  rows.sort((a, b) => {
+    const x = a.cells[column].textContent, y = b.cells[column].textContent;
+    return (ascending ? 1 : -1) * (numeric ? Number(x) - Number(y) : x.localeCompare(y));
+  });
+  rows.forEach(row => body.appendChild(row)); body.dataset.sort = column + (ascending ? '-asc' : '-desc');
+}));
+['filter', 'kind', 'unread'].forEach(id => document.getElementById(id).addEventListener(id === 'filter' ? 'input' : 'change', filterAll));
+filterAll();
+</script>
+</body></html>

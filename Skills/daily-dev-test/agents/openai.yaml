@@ -1,0 +1,4 @@
+interface:
+  display_name: "Daily Dev Test"
+  short_description: "Five-minute adaptive development reasoning practice"
+  default_prompt: "Utilise $daily-dev-test pour me proposer mon microtest du jour en cinq minutes maximum."

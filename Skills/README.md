@@ -16,6 +16,8 @@ Le skill installé et sa source doivent ainsi utiliser les mêmes fichiers, pour
 | [code-style-fix](code-style-fix/SKILL.md) | Corrections de style et d’organisation ; branche ou projet complet. |
 | [code-inspection-fix](code-inspection-fix/SKILL.md) | Analyse statique, corrections et revue des faux positifs Python et C++ ; branche ou projet complet. |
 | [daily-dev-test](daily-dev-test/SKILL.md) | Microtests de cinq minutes, correction du raisonnement et progression adaptée à l’historique local. |
+| [epub-cleanup](epub-cleanup/SKILL.md) | Nettoyage et uniformisation des EPUB, styles, navigation et ressources, avec conservation du contenu. |
+| [epub-translate](epub-translate/SKILL.md) | Traduction éditoriale des EPUB et séries, lexique, images, suivi et contrôle des livrables. |
 | [pdf-scan-restore](pdf-scan-restore/SKILL.md) | OCR, recomposition et comparaison avant/après. |
 | [pdf-size-optimize](pdf-size-optimize/SKILL.md) | Poids des PDF et contrôle visuel. |
 

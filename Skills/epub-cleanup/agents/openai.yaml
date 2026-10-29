@@ -1,0 +1,4 @@
+interface:
+  display_name: "EPUB Cleanup"
+  short_description: "Clean and harmonize EPUB structure and styles"
+  default_prompt: "Utilise $epub-cleanup pour nettoyer et uniformiser ces EPUB en préservant leur contenu et leurs originaux."

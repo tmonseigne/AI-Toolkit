@@ -1,0 +1,4 @@
+interface:
+  display_name: "EPUB Translation"
+  short_description: "Translate EPUBs with editorial and series consistency"
+  default_prompt: "Utilise $epub-translate pour traduire ces EPUB en français avec un lexique cohérent et un suivi des textes et images."

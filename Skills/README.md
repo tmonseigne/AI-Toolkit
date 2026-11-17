@@ -15,6 +15,7 @@ Le skill installé et sa source doivent ainsi utiliser les mêmes fichiers, pour
 | [code-doc-fix](code-doc-fix/SKILL.md) | Corrections de documentation Python et traductions ; branche ou projet complet. |
 | [code-style-fix](code-style-fix/SKILL.md) | Corrections de style et d’organisation ; branche ou projet complet. |
 | [code-inspection-fix](code-inspection-fix/SKILL.md) | Analyse statique, corrections et revue des faux positifs Python et C++ ; branche ou projet complet. |
+| [conversation-to-vault](conversation-to-vault/SKILL.md) | Justifications et expériences utiles aux décisions futures ; peut ne rien ajouter au coffre. |
 | [daily-dev-test](daily-dev-test/SKILL.md) | Microtests de cinq minutes, correction du raisonnement et progression adaptée à l’historique local. |
 | [epub-cleanup](epub-cleanup/SKILL.md) | Nettoyage et uniformisation des EPUB, styles, navigation et ressources, avec conservation du contenu. |
 | [epub-translate](epub-translate/SKILL.md) | Traduction éditoriale des EPUB et séries, lexique, images, suivi et contrôle des livrables. |

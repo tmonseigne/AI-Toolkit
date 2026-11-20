@@ -19,8 +19,12 @@ Le skill installé et sa source doivent ainsi utiliser les mêmes fichiers, pour
 | [daily-dev-test](daily-dev-test/SKILL.md) | Microtests de cinq minutes, correction du raisonnement et progression adaptée à l’historique local. |
 | [epub-cleanup](epub-cleanup/SKILL.md) | Nettoyage et uniformisation des EPUB, styles, navigation et ressources, avec conservation du contenu. |
 | [epub-translate](epub-translate/SKILL.md) | Traduction éditoriale des EPUB et séries, lexique, images, suivi et contrôle des livrables. |
+| [github-actions-diagnosis](github-actions-diagnosis/SKILL.md) | Diagnostic d’un échec de CI à partir du job, des journaux et du commit testé. |
+| [microscopy-figures](microscopy-figures/SKILL.md) | Création et audit de figures de microscopie, calibration, traçabilité et export. |
+| [obsidian-note-edit](obsidian-note-edit/SKILL.md) | Édition ciblée de notes, propriétés, liens et inclusions. |
 | [pdf-scan-restore](pdf-scan-restore/SKILL.md) | OCR, recomposition et comparaison avant/après. |
 | [pdf-size-optimize](pdf-size-optimize/SKILL.md) | Poids des PDF et contrôle visuel. |
+| [python-cpp-port-validation](python-cpp-port-validation/SKILL.md) | Validation numérique et comparaison du débit et de la mémoire pour les portages Python/C++. |
 
 Les rapports HTML font partie des livrables des opérations concernées, sans skill séparé.
 Les deux skills PDF utilisent le générateur de comparaison et le template HTML de `pdf-size-optimize` comme source unique ; conserver leurs dossiers voisins dans le dépôt, y compris lorsque leur installation utilise des jonctions.
